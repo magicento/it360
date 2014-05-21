@@ -15,6 +15,7 @@
  *    06.21.2008 Version 3.0 : Added options for loading status. Fixed IE abs image path bug (thanks Sam Pohlenz).
  *    07.24.2008 Version 4.0 : Added support for @imported CSS (credit: http://marcarea.com/). Fixed support in Opera as well. 
  *    10.31.2008 Version: 5.0 : Many feature and performance enhancements from trixta
+ *    3.29.2012 Version: 5.0 : stylesheets is now passed as an option - joel martinez
  * --------------------------------------------------------------------
  */
 
@@ -23,7 +24,8 @@
 		statusTextEl: null,
 		statusBarEl: null,
 		errorDelay: 999, // handles 404-Errors in IE
-		simultaneousCacheLoading: 2
+		simultaneousCacheLoading: 2,
+        stylesheets: document.styleSheets
 	}, settings);
 	var allImgs = [],
 		loaded = 0,
@@ -53,14 +55,11 @@
 		//only load 1 image at the same time / most browsers can only handle 2 http requests, 1 should remain for user-interaction (Ajax, other images, normal page requests...)
 		// otherwise set simultaneousCacheLoading to a higher number for simultaneous downloads
 		if(imgUrls && imgUrls.length && imgUrls[loaded]){
-			var img = new Image(); //new img obj
-			img.src = imgUrls[loaded];	//set src either absolute or rel to css dir
-			if(!img.complete){
-				jQuery(img).bind('error load onreadystatechange', onImgComplete);
-			} else {
-				onImgComplete();
-			}
-			errorTimer = setTimeout(onImgComplete, settings.errorDelay); // handles 404-Errors in IE
+            for(var i = 0, il = imgUrls.length; i < il; i++){
+                var img = new Image(); //new img obj
+                
+                img.src = imgUrls[i];	//set src either absolute or rel to css dir
+            }
 		}
 	}
 	
@@ -142,11 +141,10 @@
 			parseCSS(imported, importedSrc);
 			return false;
 		}
-		var downloads = settings.simultaneousCacheLoading;
-		while( downloads--){
-			setTimeout(loadImgs, downloads);
-		}
+		
+        loadImgs();
 	}
-	parseCSS(document.styleSheets);
+    
+	parseCSS(settings.stylesheets);
 	return imgUrls;
 };
