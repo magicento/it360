@@ -5208,6 +5208,7 @@ p.blog-cat {
 }
 
 div.envor-contacts-widget div.envor-widget-inner{
+	display: inline-block;
 	background: url(../img/pages/widget-contacts-2-bg.png) no-repeat center top;
 	-moz-background-size:100%;
 	-webkit-background-size:100%;
