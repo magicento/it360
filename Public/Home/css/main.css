@@ -5206,3 +5206,11 @@ p.blog-cat {
 	width: 100%;
 	display: inline-block;
 }
+
+div.envor-contacts-widget div.envor-widget-inner{
+	background: url(../img/pages/widget-contacts-2-bg.png) no-repeat center top;
+	-moz-background-size:100%;
+	-webkit-background-size:100%;
+	-o-background-size:100%;
+	background-size:100%; 
+}
